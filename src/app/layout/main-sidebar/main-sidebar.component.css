@@ -1,0 +1,3 @@
+.brand-link:not([class*=navbar]){background-color: #8f8f8f !important;}
+.brand-link{text-align: center;}
+.brand-link .brand-image{max-height: 38px; float: none;}

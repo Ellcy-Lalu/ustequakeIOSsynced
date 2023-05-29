@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Your current location &nbsp;&nbsp;<code>Note: Enable your location settings.</code></h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-tool" data-card-widget="collapse">
+            <i class="fas fa-minus"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+              <agm-map [zoom]='15' [latitude]="lat" [longitude]="lng" [disableDefaultUI]="false" [zoomControl]="true">
+                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                <agm-circle [latitude]="+lat" [longitude]="+lng" [radius]="500"
+                    [circleDraggable]="false" [editable]="false" [strokeOpacity]="1" [strokeWeight]="2" [strokeColor]="'#706bd6'" [fillColor]="'#706bd6'" [fillOpacity]="0.5">
+                </agm-circle>
+              </agm-map>
+              <button [disabled]="isSengindLocation" (click)="sendMyLocation()" type="button" class="btn btn-lg btn-primary btn-block mt-2">
+                <i class="fas fa-map-marked-alt"></i> {{isSengindLocation ? 'Sending your location..' : 'Send my location'}}
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-2">
+  <div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">What's your status</h3>
+            </div>
+            <div class="card-body row">
+            <div class="col-md-6 mt-2">
+                <button (click)="sendSafeStatus()" type="button" class="btn btn-primary btn-block">
+                <i class="fa fa-check"></i> Safe
+                </button>
+            </div>
+            <div class="col-md-6 mt-2">
+                <button (click)="sendUnsafeStatus()" type="button" class="btn btn-danger btn-block">
+                <i class="fa fa-bell"></i> Unsafe
+                </button>
+            </div>
+            </div>
+        </div>
+  </div>
+</div>

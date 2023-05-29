@@ -1,0 +1,58 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">LCMC Evaluation</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 20%">Drill event date</th>
+                    <th style="width: 10%">Evaluators</th>
+                    <th>Place of Drill</th>
+                    <th>Agency/Org/LGU</th>
+                    <th>Duration</th>
+                    <th>DCG</th>
+                    <th>Rating</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="isLoadingRecord"><td colspan="5" class="text-center">Loading evaluation records...</td></tr>
+                <tr *ngIf="!isLoadingRecord && evaluations.length == 0"><td colspan="5" class="text-center">No evaluation records found.</td></tr>
+                <tr *ngFor="let row of evaluations">
+                    <td>
+                        {{row.payload.doc.data().evaluation.title}}<br/>
+                        <small>Created {{row.payload.doc.data().createdAt.toDate() | amTimeAgo}}</small>
+                    </td>
+                    <td>
+                        {{row.payload.doc.data()?.evaluator?.name}}
+                    </td>
+                    <td>{{row.payload.doc.data().evaluation.place}}</td>
+                    <td>{{row.payload.doc.data().evaluation.agencyName}}</td>
+                    <td>{{row.payload.doc.data().evaluation.duration}}</td>
+                    <td>{{row.payload.doc.data().evaluation.dcgName}}</td>
+                    <td>
+                        <span *ngIf="row.payload.doc.data().total.grandTotal >= 90" class="badge bg-success">OUTSTANDING</span>
+                        <span *ngIf="row.payload.doc.data().total.grandTotal >= 80 && row.payload.doc.data().total.grandTotal <= 89" class="badge bg-info">VERY SATISFACTORY</span>
+                        <span *ngIf="row.payload.doc.data().total.grandTotal >= 70 && row.payload.doc.data().total.grandTotal <= 79" class="badge bg-warning">SATISFACTORY</span>
+                        <span *ngIf="row.payload.doc.data().total.grandTotal >= 60 && row.payload.doc.data().total.grandTotal <= 69" class="badge bg-orange text-white">FAIR</span>
+                        <span *ngIf="row.payload.doc.data().total.grandTotal <= 59" class="badge bg-danger">NEEDS IMPROVEMENT</span>
+                    </td>
+                    <td>
+                        <a [routerLink]="['/reports','evaluation', row.payload.doc.id]" [queryParams]="{header: row.payload.doc.data().evaluation.title}" class="btn btn-outline-warning btn-sm">Open</a>
+                        <a [routerLink]="['/admin','reports','edit','evaluation', row.payload.doc.id]" [queryParams]="{header: row.payload.doc.data().evaluation.title}" class="btn btn-outline-info btn-sm ml-1" title="Edit"><i class="fas fa-edit"></i> Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

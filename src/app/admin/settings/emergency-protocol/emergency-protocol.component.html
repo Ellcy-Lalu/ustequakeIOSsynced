@@ -1,0 +1,77 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="card card-primary" [ngClass]="{'collapsed-card':isCollaped}">
+            <div class="card-header">
+                <h3 class="card-title">Create New Item</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form [formGroup]="emp" (ngSubmit)="onSubmit()">
+                            <div class="form-group">
+                                <label for="inputTitle">Title</label>
+                                <input formControlName="title" type="text" id="inputTitle" class="form-control">
+                                <div *ngIf="submitted && f.title.errors" class="invalid-feedback" [ngClass]="{ 'd-block': submitted && f.title.errors }">
+                                    <div *ngIf="f.title.errors.required">Title is required.</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDescription">Description</label>
+                                <textarea formControlName="description" id="inputDescription" class="form-control" rows="4"></textarea>
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback" [ngClass]="{ 'd-block': submitted && f.description.errors }">
+                                    <div *ngIf="f.description.errors.required">Description is required.</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputStatus">Status</label>
+                                <select formControlName="status" id="inputStatus" class="form-control custom-select">
+                                    <option selected="" disabled="">Select one</option>
+                                    <option>Active</option>
+                                    <option>Inactive</option>
+                                    <option>Draft</option>
+                                </select>
+                                <div *ngIf="submitted && f.status.errors" class="invalid-feedback" [ngClass]="{ 'd-block': submitted && f.status.errors }">
+                                    <div *ngIf="f.status.errors.required">Status is required.</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="file">Image</label>
+                                <input 
+                                    #inputFile
+                                    id="file" 
+                                    type="file"
+                                    accept="image/*"
+                                    class="form-control"
+                                    (change)="onFileChange($event)">
+                                <div *ngIf="submitted && f.thumbnail.errors" class="invalid-feedback" [ngClass]="{ 'd-block': submitted && f.thumbnail.errors }">
+                                    <div *ngIf="f.thumbnail.errors.required">Image is required.</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button [disabled]="loading" type="submit" class="btn btn-primary btn-block">{{loading ? 'Please wait...' : 'Save'}}</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Image preview</h5>
+                        <div class="info-box bg-light p-5" [ngStyle]="{'background-image' : imageSrc != null ? 'url('+imageSrc+')' : 'none'}">
+                            <div class="info-box-content">
+                                <ng-container *ngIf="imageSrc == null">
+                                    <span class="info-box-text text-center text-muted" style="font-size: 3em;"><i class="far fa-image"></i></span>
+                                    <span class="info-box-number text-center text-muted mb-0">Upload image</span>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<app-emergency-protocol-list></app-emergency-protocol-list>

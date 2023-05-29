@@ -1,0 +1,151 @@
+<div class="row">
+    <div class="col">
+        <div class="card card-warning">
+            <div *ngIf="isLoading" class="overlay dark">
+                <p class="text-success"><i class="fas fa-sync-alt fa-spin"></i> Please wait while updating evaluation...</p>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">NEW EARTHQUAKE DRILL EVALUATION</h3>
+              <div class="card-tools">
+                <a routerLink="/lcmc/feedbacks" type="button" class="btn btn-success btn-tool text-white">
+                    <i class="fas fa-eye"></i> View Evaluations
+                </a>
+              </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input [(ngModel)]="evaluation.title" type="text" class="form-control" id="title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="place">Place of Drill</label>
+                            <input [(ngModel)]="evaluation.place" type="text" class="form-control" id="place" placeholder="Enter Place of drill">
+                        </div>
+                        <div class="form-group">
+                            <label for="participants">Total number of participants</label>
+                            <input [(ngModel)]="evaluation.totalParticipants" type="text" class="form-control" id="participants" placeholder="Enter number of participants">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label for="agency">Name of Agency/Organization/LGU</label>
+                            <input [(ngModel)]="evaluation.agencyName" type="text" class="form-control" id="agency" placeholder="Agency/Organization/LGU">
+                        </div>
+                        <div class="form-group">
+                            <label for="dcg">Name of DCG</label>
+                            <input [(ngModel)]="evaluation.dcgName" type="text" class="form-control" id="dcg" placeholder="Enter DCG">
+                        </div>
+                        <div class="form-group">
+                            <label for="duration">Duration of Drill</label>
+                            <input [(ngModel)]="evaluation.duration" type="text" class="form-control" id="duration" placeholder="Enter Duration of Drill">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <tr class="text-md">
+                                <td colspan="6">Quantitative assessment of EQ drill: Rate the following parameters with one (1) being the lowest and five (5) being the highest.</td>
+                                <td>If you think that your response needs to be qualified, please fill-up the column below.</td>
+                            </tr>
+                            <tr class="text-lg">
+                                <td><strong>PART I – GENERAL EVALUATION:</strong></td>
+                                <td class="text-center"><strong>1</strong></td>
+                                <td class="text-center"><strong>2</strong></td>
+                                <td class="text-center"><strong>3</strong></td>
+                                <td class="text-center"><strong>4</strong></td>
+                                <td class="text-center"><strong>5</strong></td>
+                                <td>COMMENTS and OBSERVATIONS</td>
+                            </tr>
+                            <tr *ngFor="let row of generalEvaluation; let i=index;">
+                                <td>{{row.label}}</td>
+                                <td *ngFor="let x of row.scoreCb; let ix=index;">
+                                    <div class="icheck-success d-inline">
+                                        <input [(ngModel)]="row.score" [value]="x" type="radio" id="{{'cs'+i+'s'+ix}}" name="{{'cs'+i+'s'+ix}}" (change)="calculate()">
+                                        <label for="{{'cs'+i+'s'+ix}}"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea [name]="'ge'+i" class="form-control" [(ngModel)]="row.comment" cols="30" rows="1" placeholder="Type your comments"></textarea>
+                                </td>
+                            </tr>
+                            <tr class="text-md">
+                                <td colspan="6"><strong>EVALUATION OF THE DISASTER CONTROL GROUP</strong></td>
+                                <td></td>
+                            </tr>
+                            <tr *ngFor="let row of disasterControl; let i=index;">
+                                <td>{{row.label}}</td>
+                                <td *ngFor="let x of row.scoreCb; let ix=index;">
+                                    <div class="icheck-success d-inline">
+                                        <input [(ngModel)]="row.score" [value]="x" type="radio" id="{{'dc'+i+'s'+ix}}" name="{{'dc'+i+'s'+ix}}" (change)="calculate()">
+                                        <label for="{{'dc'+i+'s'+ix}}"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <textarea [name]="'ge'+i" class="form-control" [(ngModel)]="row.comment" cols="30" rows="1" placeholder="Type your comments"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SUB-TOTAL</strong></td>
+                                <td class="text-center">{{oneTotal > 0 ? oneTotal : ''}}</td>
+                                <td class="text-center">{{twoTotal > 0 ? twoTotal : ''}}</td>
+                                <td class="text-center">{{threeTotal > 0 ? threeTotal : ''}}</td>
+                                <td class="text-center">{{fourTotal > 0 ? fourTotal : ''}}</td>
+                                <td class="text-center">{{fiveTotal > 0 ? fiveTotal : ''}}</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><strong>GRAND TOTAL/OVER ALL RATING</strong></td>
+                                <td colspan="5" class="text-center text-lg"><strong>{{grandTotal > 0 ? grandTotal : ''}}</strong></td>
+                                <td>
+                                    <span *ngIf="grandTotal >= 90" class="badge bg-success">OUTSTANDING</span>
+                                    <span *ngIf="grandTotal >= 80 && grandTotal <= 89" class="badge bg-info">VERY SATISFACTORY</span>
+                                    <span *ngIf="grandTotal >= 70 && grandTotal <= 79" class="badge bg-warning">SATISFACTORY</span>
+                                    <span *ngIf="grandTotal >= 60 && grandTotal <= 69" class="badge bg-orange text-white">FAIR</span>
+                                    <span *ngIf="grandTotal <= 59" class="badge bg-danger">NEEDS IMPROVEMENT</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="text-lg"><strong>PART II – RECOMMENDATIONS:</strong></p>
+                        <div class="form-group">
+                            <textarea [(ngModel)]="evaluation.recommendations" class="form-control" cols="30" rows="10" placeholder="Type your recommendations here"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="agencyRep">Agency Represented</label>
+                            <input [(ngModel)]="evaluation.agencyRepresented" type="text" class="form-control" id="agencyRep" placeholder="Agency Represented">
+                        </div>
+                        <div class="form-group">
+                            <label for="designation">Designation</label>
+                            <input [(ngModel)]="evaluation.agencyRepDesignation" type="text" class="form-control" id="designation" placeholder="Designation">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="contactInfo">Landline and Mobile Numbers</label>
+                            <input [(ngModel)]="evaluation.agencyRepContact" type="text" class="form-control" id="contactInfo" placeholder="Landline and Mobile Numbers">
+                        </div>
+                        <div class="form-group">
+                            <label for="emailAddress">E-mail Address</label>
+                            <input [(ngModel)]="evaluation.agencyRepEmail" type="text" class="form-control" id="emailAddress" placeholder="E-mail Address">
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        <button (click)="submit()" type="button" class="btn btn-info btn-block btn-lg" [disabled]="isValid() || isLoading">{{isLoading ? 'Updating evaluation...' : 'Update evaluation'}}</button>
+                    </div>
+                </div>
+            </div>
+          </div>
+    </div>
+</div>

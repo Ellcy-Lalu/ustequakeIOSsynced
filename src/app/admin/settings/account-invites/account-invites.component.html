@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">List of account invites</h3>
+    </div>
+  
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Invite Sent</th>
+            <th style="width: 8%;" class="text-center">Registered As</th>
+            <th style="width:20px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="isLoading">
+                <td colspan="5">Loading account invites...</td>
+            </tr>
+          <tr *ngFor="let row of accountInvites; let i = index">
+            <td>{{i+1}}.</td>
+            <td>{{row.payload.doc.data().firstname+" "+row.payload.doc.data().lastname | titlecase}}</td>
+            <td>{{row.payload.doc.data().email}}</td>
+            <td>{{row.payload.doc.data().createdAt.toDate() | amTimeAgo}}</td>
+            <td class="text-center">
+                <span *ngIf="row.payload.doc.data()?.role == 'user'" class="badge bg-warning">{{(row.payload.doc.data()?.registerAs).toUpperCase()}}</span>
+                <span *ngIf="row.payload.doc.data()?.role == 'lcmc'" class="badge bg-info">{{(row.payload.doc.data()?.registerAs).toUpperCase()}}</span>
+                <span *ngIf="row.payload.doc.data()?.role == 'admin'" class="badge bg-success">{{(row.payload.doc.data()?.registerAs).toUpperCase()}}</span>
+            </td>
+            <td class="text-center">
+                <a style="cursor: pointer;" (click)="deleteInvite(row.payload.doc.id)" class="btn btn-danger ml-1"><i class="fas fa-trash"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

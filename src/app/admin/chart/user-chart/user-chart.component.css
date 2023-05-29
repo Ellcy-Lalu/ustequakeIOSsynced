@@ -1,0 +1,8 @@
+::ng-deep .tick text, ::ng-deep text{
+  fill: #a3a3a3 !important;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: center;
+}

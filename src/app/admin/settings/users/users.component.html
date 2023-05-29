@@ -1,0 +1,68 @@
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">User Accounts</h3>
+        <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 60px;"></th>
+                    <th>Name</th>
+                    <th>Gender</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Type</th>
+                    <th>Role</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of accountUsers" [ngClass]="{'text-muted':row.payload.doc.data()?.isActive == false}">
+                    <td>
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <!-- <img alt="Avatar" class="table-avatar" src="../../../assets/dist/img/avatar.png"> -->
+                                <span class="avatar">
+                                    <div [ngClass]="{'bg-default':row.payload.doc.data()?.isActive == false, 'bg-primary':row.payload.doc.data()?.isActive != false}">
+                                        <div class="avatar-content">{{userIcon(row.payload.doc.data().firstname, row.payload.doc.data().lastname)}}</div>
+                                    </div>
+                                </span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td>{{(row.payload.doc.data().firstname +" "+row.payload.doc.data().lastname) | titlecase}}</td>
+                    <td>{{row.payload.doc.data()?.gender}}</td>
+                    <td>{{row.payload.doc.data()?.email}}</td>
+                    <td>{{row.payload.doc.data()?.phone}}</td>
+                    <td>{{row.payload.doc.data()?.registerAs}}</td>
+                    <td>
+                        <ng-container *ngIf="row.payload.doc.data()?.isActive == false; else showUserRole">
+                            <span class="badge bg-danger">Archived</span>
+                        </ng-container>
+                        <ng-template #showUserRole>
+                            <span *ngIf="row.payload.doc.data()?.role == 'user'" class="badge bg-warning">{{(row.payload.doc.data()?.role).toUpperCase()}}</span>
+                            <span *ngIf="row.payload.doc.data()?.role == 'lcmc'" class="badge bg-info">{{(row.payload.doc.data()?.role).toUpperCase()}}</span>
+                            <span *ngIf="row.payload.doc.data()?.role == 'admin'" class="badge bg-success">{{(row.payload.doc.data()?.role).toUpperCase()}}</span>
+                        </ng-template>
+                        
+                    </td>
+                    <td>{{row.payload.doc.data().createdAt.toDate() | amTimeAgo}}</td>
+                    <td class="text-right py-0 align-middle">
+                        <div class="btn-group btn-group-sm">
+                            <!-- <a href="#" class="btn btn-info"><i class="fas fa-user-edit"></i></a> -->
+                            <a title="Archive user" *ngIf="!row.payload.doc.data()?.default  && row.payload.doc.data()?.isActive !== false" style="cursor: pointer;" (click)="deactivateUser(row.payload.doc.id, row.payload.doc.data().email, row.payload.doc.data().password)" class="btn btn-warning ml-1"><i class="fas fa-archive"></i></a>
+                            <a title="Activate user" *ngIf="!row.payload.doc.data()?.default && row.payload.doc.data()?.isActive == false" style="cursor: pointer;" (click)="activateUser(row.payload.doc.id, row.payload.doc.data().email, row.payload.doc.data().password)" class="btn btn-success ml-1"><i class="fas fa-check"></i></a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

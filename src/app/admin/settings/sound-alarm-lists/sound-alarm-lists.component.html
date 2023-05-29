@@ -1,0 +1,35 @@
+<div class="card card-default mt-3">
+    <div class="card-header">
+        <h3 class="card-title">Audio Files</h3>
+    </div>
+    <div class="card-body">
+        <table class="audio table table-striped">
+            <thead>
+                <th style="width:20px;"></th>
+                <th>File name</th>
+                <th>Audio file</th>
+                <th>Uploaded</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <tr *ngIf="isLoadingFiles">
+                    <td colspan="5" class="text-center">Loading audio files...</td>
+                </tr>
+                <tr *ngFor="let row of audioFiles">
+                    <td>
+                        <i *ngIf="row.payload.doc.data().isActive" class="far fa-check-circle text-success"></i>
+                    </td>
+                    <td>{{row.payload.doc.data().filename}}</td>
+                    <td>
+                        <audio [src]="row.payload.doc.data().soundAlarm" id="audio" controls #audioTag></audio>
+                    </td>
+                    <td>{{row.payload.doc.data().createdAt.toDate() | amTimeAgo}}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" (click)="delete(row.payload.doc.id)"><i class="fas fa-trash"></i> Delete</button>
+                        <button [disabled]="row.payload.doc.data().isActive" class="btn btn-info btn-sm ml-2" (click)="setActive(row.payload.doc.id)"><i class="fas fa-check"></i> Set active</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

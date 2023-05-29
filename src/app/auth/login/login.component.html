@@ -1,0 +1,75 @@
+<div class="login-box">
+    <div class="login-logo">
+      <img width="100%" src="../assets/dist/img/ust-equake-logo.png" alt="AdminLTE Logo" class="brand-image">
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+      <div class="card-body login-card-body">
+        <p class="login-box-msg">Sign in to start your session</p>
+        <div *ngIf="error !== ''" class="alert alert-danger alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          {{error}}
+        </div>
+        <div *ngIf="isNewPasswordUpdate" class="alert alert-success alert-dismissible">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+          You have successfully changed your password. Please login to continue.
+        </div>
+        
+        <form class="auth-login-form mt-2" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="input-group mb-3">
+            <input [readonly]="loading" type="email" class="form-control" formControlName="email" placeholder="Email">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
+            </div>
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+          </div>
+          <div class="input-group mb-3 input-password">
+            <input [readonly]="loading" type="{{showPassword ? 'text' : 'password'}}" class="form-control" formControlName="password" placeholder="Password">
+            <div class="input-group-append">
+              <div class="input-group-text" (click)="toggleShowPassword()">
+                <span *ngIf="!showPassword" class="fas fa-eye"></span>
+                <span *ngIf="showPassword" class="fas fa-eye-slash"></span>
+              </div>
+            </div>
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && f.password.errors }"
+            >
+              <div *ngIf="f.password.errors.required">Password is required</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="icheck-primary">
+                <input type="checkbox" id="remember">
+                <label for="remember">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            <!-- /.col -->
+            <div class="col-6">
+              <button [disabled]="loading" type="submit" class="btn btn-primary btn-block">{{loading ? 'Please wait...' : 'Sign In'}}</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+  
+        <p class="mb-1">
+          <a routerLink="/auth/forgot-password">Forgot password here</a>
+        </p>
+        <p class="mb-0">
+          <a routerLink="/auth/register" class="text-center">Register</a>
+        </p>
+      </div>
+      <!-- /.login-card-body -->
+    </div>
+    <a routerLink="/offline/features" class="btn btn-block bg-gradient-warning btn-flat text-white mt-2"><i class="fas fa-toggle-off"></i> Offline Features</a>
+  </div>
+  <!-- /.login-box -->

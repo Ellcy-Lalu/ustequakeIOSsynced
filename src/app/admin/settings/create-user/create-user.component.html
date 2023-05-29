@@ -1,0 +1,124 @@
+<div class="card">
+  <div class="card-body row">
+    <div
+      class="col-5 text-center d-flex align-items-center justify-content-center"
+    >
+      <div class="">
+        <h2>UST eQuake</h2>
+        <p class="lead mb-5">Create new account</p>
+      </div>
+    </div>
+    <div class="col-7">
+      <div *ngIf="error !== ''" class="alert alert-danger alert-dismissible">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+        {{ error }}
+      </div>
+      <form [formGroup]="createUserGroup" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="inputFirstName">First name</label>
+              <input
+                type="text"
+                id="inputFirstName"
+                formControlName="firstname"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"
+              />
+              <div
+                *ngIf="submitted && f.firstname.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.firstname.errors.required">
+                  First name is required
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <label for="inputLastName">Last name</label>
+              <input
+                type="text"
+                id="inputLastName"
+                formControlName="lastname"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="inputEmail">E-Mail</label>
+              <input
+                type="email"
+                id="inputEmail"
+                formControlName="email"
+                [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                class="form-control"
+              />
+              <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div div *ngIf="f.email.errors.required">Email is required</div>
+              </div>
+            </div>
+            <div class="col">
+              <label for="gender">Gender</label>
+              <select formControlName="gender" id="gender" class="form-control">
+                <option value="">-- Select gender --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inputSubject">Phone number</label>
+          <div class="input-group mb-3">
+            <div *ngIf="!loading" class="input-group-prepend">
+              <span class="input-group-text">+63</span>
+            </div>
+            <input type="text" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors && !loading}" placeholder="Phone number" />
+            <div *ngIf="submitted && f.phone.errors && loading == false" class="invalid-feedback">
+              <div *ngIf="f.phone.errors.required">Phone number is required</div>
+              <div *ngIf="f.phone.errors.minLength || f.phone.errors.maxLength">Please enter the 10 digit after the area code.</div>
+              <div *ngIf="f.phone.errors.pattern">Invalid format. Must be +63 XXXXXXXXXX</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="registeras">Register As</label>
+          <select
+            formControlName="registerAs"
+            id="registeras"
+            class="form-control"
+          >
+            <option value="">-- Select option --</option>
+            <option value="LCMC">LCMC</option>
+            <option value="admin">Admin</option>
+            <option value="Student">Student</option>
+            <option value="Instructor">Instructor</option>
+            <option value="Faculty">Faculty</option>
+            <option value="Staff">Staff</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button
+            [disabled]="loading"
+            type="submit"
+            class="btn btn-primary btn-block"
+          >
+            {{ loading ? "Please wait..." : "Create User" }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-archived-users></app-archived-users>

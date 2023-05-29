@@ -1,0 +1,12 @@
+.card-body{clear: both; flex: none;}
+.chart-container {
+    height: 500px;
+    display: flex;
+    justify-content: center;
+  }
+
+  #chart-container {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+  }

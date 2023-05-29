@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-success">
+      <div class="card-header">
+        <h3 class="card-title">Send feedback report</h3>
+      </div>
+      <div class="card-body">
+        <form class="mt-2" [formGroup]="feedbackFrm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="rating">On a scale 1-10, how satisfied are you with the conducted Earthquake drill?</label>
+                <input id="rating" formControlName="rate" class="form-control" type="number" min="1" max="10"/>
+                <div *ngIf="submitted && f.rate.errors" class="invalid-feedback">
+                    <div *ngIf="f.rate.errors.required">Your rating is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="rating">Did the Earthquake drill went smoothly?</label>
+                <input id="rating" formControlName="feedback" class="form-control" type="text"/>
+                <div *ngIf="submitted && f.feedback.errors" class="invalid-feedback">
+                    <div *ngIf="f.feedback.errors.required">Your feedback is important</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="suggestion">Any Suggestion?</label>
+                <textarea class="form-control" id="suggestion"  formControlName="suggestion" cols="30" rows="5"></textarea>
+                <div *ngIf="submitted && f.suggestion.errors" class="invalid-feedback">
+                    <div *ngIf="f.suggestion.errors.required">Your suggestion is important</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button [disabled]="loading" type="submit" class="btn btn-primary btn-block">{{loading ? 'Please wait...' : 'Send feedback'}}</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

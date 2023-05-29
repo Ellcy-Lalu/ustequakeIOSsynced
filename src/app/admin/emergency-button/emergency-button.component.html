@@ -1,0 +1,121 @@
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card card-default">
+      <div class="card-header">
+        <h3 class="card-title">Emergency <small>button</small></h3>
+        <div class="card-tools">
+          <button type="button" class="btn btn-block btn-success btn-sm" data-toggle="modal" data-target="#modal-message-template">Message template</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <button (click)="triggerDrill()" type="button" class="btn btn-lg btn-block" [ngClass]="{'btn-warning':!isDrill, 'btn-danger':isDrill}">
+          <span *ngIf="isDrill" class="blink-text">
+            <i class="fas fa-exclamation-circle mr-2"></i> EARTHQUAKE DRILL ALARM IS ACTIVE
+          </span>
+          <span *ngIf="!isDrill">
+            <i class="fa fa-bell mr-2"></i> {{isLoadingSettingDrill ? 'SETTING SMS TRIGGER (DRILLS AND PROTOCOL)...' : 'SMS TRIGGER (DRILLS AND PROTOCOL)'}}
+          </span>
+        </button>
+        <div class="form-group mt-2">
+          <textarea
+            [(ngModel)]="smsMessageTemplate"
+            class="form-control"
+            rows="10"
+            placeholder="Enter message"
+          ></textarea>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <button [disabled]="isSendingToStakeHolder" (click)="sendToStakehoder()" type="button" class="btn btn-outline-success btn-block">
+                <i class="fas fa-paper-plane"></i> {{isSendingToStakeHolder ? 'SENDING TO STAKEHOLDERS' : 'SEND TO STAKEHOLDERS'}}
+              </button>
+              <p class="text-center text-muted">{{stakeHolders?.length}} Active {{stakeHolders?.length > 1 ? 'users' : 'user'}}</p>
+            </div>
+            <div class="col">
+              <button [disabled]="isSendingToLCMC" (click)="sendToLCMC()" type="button" class="btn btn-outline-primary btn-block">
+                <i class="fas fa-paper-plane"></i> {{isSendingToLCMC ? 'SENDING TO LCMC' : 'SEND TO LCMC'}}
+              </button>
+              <p class="text-center text-muted">{{lcmcUsers?.length}} Active {{lcmcUsers?.length > 1 ? 'users' : 'user'}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Safe or Unsafe Status</h3>
+      </div>
+
+      <div class="card-body p-0">
+        <table class="table table-sm">
+          <thead>
+            <tr>
+              <th style="width: 10px">#</th>
+              <th>Name</th>
+              <th>Location</th>
+              <th style="width: 40px">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of userSatus; let i = index">
+              <td>{{ i + 1 }}.</td>
+              <td>
+                {{
+                  row.payload.doc.data().firstname +
+                    " " +
+                    row.payload.doc.data().lastname | titlecase
+                }}
+              </td>
+              <td>
+                <small>
+                  <span>Lat: <i class="fas fa-arrows-alt-h mr-2 text-red"></i>
+                    <b>{{ row.payload.doc.data()?.location.lat }}</b></span>
+                  <span class="ml-3">Long: <i class="fas fa-arrows-alt-v mr-2 text-orange"></i>
+                    <b>{{ row.payload.doc.data()?.location.long }}</b></span>
+                </small>
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-danger': !row.payload.doc.data().isSafe,
+                    'bg-success': row.payload.doc.data().isSafe
+                  }"
+                  >{{ row.payload.doc.data().isSafe ? "SAFE" : "UNSAFE" }}</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-message-template">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        SMS Message Template
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <textarea [(ngModel)]="smsMessageTemplate"  rows="5" placeholder="Type message" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+          <button (click)="saveSMSTemplate()" type="button" class="btn btn-block btn-success">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="card card-default">
+    <div class="card-header">
+        <h3 class="card-title">Upload Sound alarm</h3>
+    </div>
+    <div class="card-body">
+        <div id="actions" class="row">
+            <div class="col-lg-6">
+                <form [formGroup]="saGrp" (ngSubmit)="onSubmit()">
+                    <div class="btn-group w-100">
+                        <span (click)="inputFile.click()" class="btn btn-success col fileinput-button dz-clickable">
+                            <i class="fas fa-plus mr-1"></i> <span>Select audio file</span>
+                        </span>
+                        <button [disabled]="loading" type="submit" class="btn btn-primary col start">
+                            <i class="fas fa-upload mr-1"></i> <span>{{loading ? 'Uploading...' : 'Start upload'}}</span>
+                        </button>
+                        <button type="reset" class="btn btn-warning col cancel">
+                            <i class="fas fa-times-circle mr-1"></i> <span>Cancel upload</span>
+                        </button>
+                    </div>
+                    <p *ngIf="filename !== ''"><span class="text-muted">File name:</span> {{filename}} </p>
+                    <input 
+                        #inputFile
+                        id="file" 
+                        type="file"
+                        accept=".mp3,audio/*"
+                        style="visibility: hidden;"
+                        class="form-control"
+                        (change)="onFileChange($event)">
+                    <div *ngIf="submitted && f.soundAlarm.errors" class="invalid-feedback" [ngClass]="{ 'd-block': submitted && f.soundAlarm.errors }">
+                        <div *ngIf="f.soundAlarm.errors.required">Please upload an audio file.</div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-6 d-flex align-items-center">
+                <div class="fileupload-process w-100">
+                    <div id="total-progress" class="progress progress-striped active" role="progressbar"
+                        aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="progress-bar bg-green" [style.width]="(uploadProgress | async)+'%'" data-dz-uploadprogress=""></div>
+                    </div>
+                    <p class="text-center"><small *ngIf="(uploadProgress | async) > 0">{{(uploadProgress | async) | number: '1.0-0'}}% {{(uploadProgress | async) < 100 ? 'In progress' : 'Complete'}}</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="table table-striped files" id="previews">
+
+        </div>
+    </div>
+</div>
+<app-sound-alarm-lists></app-sound-alarm-lists>

@@ -1,0 +1,144 @@
+<div class="register-box">
+  <div class="card card-outline card-primary">
+    <div *ngIf="loading" class="overlay">
+      <i class="fas fa-2x fa-sync-alt fa-spin mr-2"></i>
+    </div>
+    <div class="card-header text-center">
+        <img width="100%" src="../assets/dist/img/ust-equake-logo.png" alt="AdminLTE Logo" class="brand-image">
+    </div>
+    <div class="card-body">
+      <p class="login-box-msg">Register a new membership</p>
+      <div *ngIf="error !== ''" class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        {{error}}
+      </div>
+      <form [formGroup]="registerGroup" (ngSubmit)="onSubmit()">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" formControlName="firstname" placeholder="First name" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }" />
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                      </div>
+                    </div>
+                    <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                      <div *ngIf="f.firstname.errors.required">First name is required</div>
+                    </div>
+                  </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" formControlName="lastname" placeholder="Last name" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" />
+                    <div class="input-group-append">
+                      <div class="input-group-text">
+                        <span class="fas fa-user"></span>
+                      </div>
+                    </div>
+                    <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                        <div   div *ngIf="f.lastname.errors.required">Last name is required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select formControlName="gender" id="gender" class="form-control">
+                <option value="">-- Select gender --</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+        </div>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Email" />
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div   div *ngIf="f.email.errors.required">Email is required</div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+            <div *ngIf="!loading" class="input-group-prepend">
+              <span class="input-group-text">+63</span>
+            </div>
+            <input type="text" class="form-control" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" placeholder="Phone number" />
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-phone"></span>
+              </div>
+            </div>
+            <div *ngIf="submitted && f.phone.errors && loading == false" class="invalid-feedback">
+              <div *ngIf="f.phone.errors.required">Phone number is required</div>
+              <div *ngIf="f.phone.errors.minLength || f.phone.errors.maxLength">Please enter the 10 digit after the area code.</div>
+              <div *ngIf="f.phone.errors.pattern">Invalid format. Must be +63 XXXXXXXXXX</div>
+            </div>
+          </div>
+        <div class="form-group">
+            <label for="registeras">Register As</label>
+            <select formControlName="registerAs" id="registeras" class="form-control">
+                <option value="">-- Select option --</option>
+                <option value="Student">Student</option>
+                <option value="Instructor">Instructor</option>
+                <option value="Faculty">Faculty</option>
+                <option value="Staff">Staff</option>
+            </select>
+        </div>
+        <hr/>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" autocomplete="off" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Password" />
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div   div *ngIf="f.password.errors.required">Password is required</div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Retype password"
+            autocomplete="off"
+            formControlName="confirmPassword"
+            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }"
+          />
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+          <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+            <div div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="icheck-primary">
+              <input
+                type="checkbox"
+                id="agreeTerms"
+                name="terms"
+                value="agree"
+              />
+              <label for="agreeTerms">
+                <small>I agree to the <a href="#">terms</a></small>
+              </label>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <button [disabled]="loading" type="submit" class="btn btn-primary btn-block">
+              {{loading ? 'Please wait...' : 'Register'}}
+            </button>
+          </div>
+        </div>
+      </form>
+      <a routerLink="/auth/login" class="text-center">Back to Login</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="card-header border-0">
+        <div class="d-flex justify-content-between">
+            <h3 class="card-title">Evaluation ratings</h3>
+            <a routerLink="/admin/reports/evaluation">View Evaluation</a>
+        </div>
+    </div>
+    <div class="card-body">
+        <div #chartContainer class="chart-container">
+            <ngx-charts-line-chart
+                [view]="[containerWidth, 400]"
+                [scheme]="colorScheme"
+                [results]="chartData"
+                [legend]="true"
+                [legendPosition]="'below'"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                [xAxis]="xAxis"
+                [yAxis]="yAxis"
+                >
+                <ng-template #tooltipTemplate let-model="model">
+                    <div class="tooltip-content">
+                    <p>
+                        Evaluation {{ model.seriesName }}: {{ model.value }}
+                    </p>
+                    </div>
+                </ng-template>
+            </ngx-charts-line-chart>
+        </div>
+    </div>
+</div>

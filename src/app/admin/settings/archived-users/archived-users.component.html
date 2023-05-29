@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">List of archived users</h3>
+    </div>
+  
+    <div class="card-body">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Created At</th>
+            <th style="width: 8%;" class="text-center">Registered As</th>
+            <th style="width:20px;"></th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="isLoading">
+                <td colspan="5">Loading archived users...</td>
+            </tr>
+            <tr *ngIf="!isLoading && archivedUsers.length == 0">
+                <td colspan="5">No record found.</td>
+            </tr>
+          <tr *ngFor="let row of archivedUsers; let i = index">
+            <td>{{i+1}}.</td>
+            <td>{{row.payload.doc.data().firstname+" "+row.payload.doc.data().lastname | titlecase}}</td>
+            <td>{{row.payload.doc.data().email}}</td>
+            <td>{{row.payload.doc.data().createdAt.toDate() | amTimeAgo}}</td>
+            <td class="text-center">
+                <span *ngIf="row.payload.doc.data()?.role == 'user'" class="badge bg-warning">{{(row.payload.doc.data()?.registerAs).toUpperCase()}}</span>
+                <span *ngIf="row.payload.doc.data()?.role == 'lcmc'" class="badge bg-info">{{(row.payload.doc.data()?.registerAs).toUpperCase()}}</span>
+                <span *ngIf="row.payload.doc.data()?.role == 'admin'" class="badge bg-success">{{(row.payload.doc.data()?.registerAs).toUpperCase()}}</span>
+            </td>
+            <td class="text-center">
+              <a title="Activate user" *ngIf="!row.payload.doc.data()?.default && row.payload.doc.data()?.isActive == false" style="cursor: pointer;" (click)="activateUser(row.payload.doc.id, row.payload.doc.data().email, row.payload.doc.data().password)" class="btn btn-success ml-1"><i class="fas fa-check"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

@@ -1,0 +1,48 @@
+<div class="card">
+    <div class="card-header">
+      <h3 class="card-title">User Safety Status</h3>
+    </div>
+
+    <div class="card-body p-0">
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th style="width: 10px">#</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th style="width: 40px">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of userSatus; let i = index">
+            <td>{{ i + 1 }}.</td>
+            <td>
+              {{
+                row.payload.doc.data().firstname +
+                  " " +
+                  row.payload.doc.data().lastname | titlecase
+              }}
+            </td>
+            <td>
+              <small>
+                <span>Lat: <i class="fas fa-arrows-alt-h mr-2 text-red"></i>
+                  <b>{{ row.payload.doc.data()?.location.lat }}</b></span>
+                <span class="ml-3">Long: <i class="fas fa-arrows-alt-v mr-2 text-orange"></i>
+                  <b>{{ row.payload.doc.data()?.location.long }}</b></span>
+              </small>
+            </td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="{
+                  'bg-danger': !row.payload.doc.data().isSafe,
+                  'bg-success': row.payload.doc.data().isSafe
+                }"
+                >{{ row.payload.doc.data().isSafe ? "SAFE" : "UNSAFE" }}</span
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

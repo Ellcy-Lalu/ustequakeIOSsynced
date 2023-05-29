@@ -1,0 +1,134 @@
+<div *ngIf="isnewAccount" class="alert alert-success alert-dismissible">
+  Welcome to UST e-Quake
+  <span>{{ userData.firstname + " " + userData.lastname | titlecase }}</span>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Campus Map</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="w-100">
+          <img
+          *ngIf="currentMap != null"
+            [src]="currentMap"
+            alt="CampusMap"
+            style="width: inherit"
+          />
+         <!--  <div >
+              <ngx-img-zoom
+              [zoomImageSrc]="currentMap"
+              [previewImageSrc]="currentMap"
+              [imgStyle]="'width:500px height:500px; bottom:0;  left:0;  right:0;  top:0;  margin:0 auto; border:1px solid #dcdcdc;'" 
+              [enableZoom]="true"
+              [zoomOnWheel]="true"
+              [zoomOnHover]="true"
+              [resultStyle]="'width:200px; height:200px; background-repeat: no-repeat; z-index: 999; position:absolute;
+              -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+                box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); top:0; left: 50%;'">
+            </ngx-img-zoom>
+          </div> -->
+          <p *ngIf="currentMap == null" class="w-100 text-center text-muted">Campus map is currently unavailable.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">SOP and Earthquake Guides</h3>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button type="button" class="btn btn-tool" data-card-widget="remove">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div *ngIf="loading" class="col-sm-12">
+            <p class="text-center text-white">Loading data...</p>
+          </div>
+          <ng-container *ngIf="!loading">
+            <div
+              *ngFor="let row of protocols; let i = index"
+              class="col-sm-4 col-xl-4"
+            >
+              <div class="card mb-4 bg-gradient-dark">
+                <img
+                  class="card-img-top"
+                  [src]="row.payload.doc.data().thumbnail"
+                  [alt]="row.payload.doc.data().title"
+                  [style.opacity]="'.6'"
+                  style="max-height: 350px"
+                />
+                <div
+                  class="card-img-overlay d-flex flex-column justify-content-end"
+                  style="min-height: 250px; max-height: 350px"
+                >
+                  <h5 class="card-title text-primary text-white">
+                    {{ row.payload.doc.data().title }}
+                  </h5>
+                  <a href="#" class="text-white"
+                    >Created
+                    {{
+                      row.payload.doc.data().createdAt.toDate() | amTimeAgo
+                    }}</a
+                  >
+                  
+                  <button (click)="viewDescription(row.payload.doc.data())" type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default">View Description</button>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        Description
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="thumbnail != ''" class="section mb-2" style="display:block; text-align: center;">
+          <img [src]="thumbnail" style="width: 100%;">
+        </div>
+        {{description}}
+      </div>
+    </div>
+  </div>
+</div>

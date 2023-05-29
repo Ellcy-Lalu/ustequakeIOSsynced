@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box">
+            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Earthquake Drills</span>
+                <span class="info-box-number">{{drillLogsCount > 0 ? drillLogsCount : ''}} <small></small></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Feedbacks</span>
+                <span class="info-box-number">{{feedbackCount > 0 ? feedbackCount : ''}}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="clearfix hidden-md-up"></div>
+    
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-link"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Connected</span>
+                <span class="info-box-number">{{connectedUsers > 0 ? connectedUsers : ''}}</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12 col-sm-6 col-md-3">
+        <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Active Users</span>
+                <span class="info-box-number">{{activeUsers > 0 ? activeUsers : ''}}</span>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <app-user-chart></app-user-chart>
+    </div>
+    <div class="col-md-6">
+        <app-evaluation-chart></app-evaluation-chart>
+    </div>
+</div>
+<div class="row mt-4">
+    <div class="col-md-7">
+        <app-safety-status></app-safety-status>
+    </div>
+    <div class="col-md-5">
+        <app-piechart-safety-status></app-piechart-safety-status>
+    </div>
+</div>

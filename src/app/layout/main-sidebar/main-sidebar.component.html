@@ -1,0 +1,177 @@
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a [routerLink]="userData !== null ? '/'+userData.role+'/dashboard' : '/auth/login'" class="brand-link">
+      <img src="../assets/dist/img/ust-equake-logo.png" alt="AdminLTE Logo" class="brand-image">
+      <!-- <span class="brand-text font-weight-light">AdminLTE 3</span> -->
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="../assets/dist/img/avatar-default.png" class="img-circle elevation-2" alt="User Image">
+        </div>
+        <div class="info">
+          <a [routerLink]="userData !== null ? '/'+userData.role+'/dashboard' : '/auth/login'" class="d-block">{{(userData?.firstname && userData?.lastname) ? ((userData?.firstname.charAt(0).toUpperCase() + userData?.firstname.slice(1)) +" "+(userData?.lastname.charAt(0).toUpperCase() + userData?.lastname.slice(1))) : "UST eQuake"}}</a>
+        </div>
+      </div>
+
+      <!-- SidebarSearch Form -->
+      <div class="form-inline">
+        <div class="input-group" data-widget="sidebar-search">
+          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+          <div class="input-group-append">
+            <button class="btn btn-sidebar">
+              <i class="fas fa-search fa-fw"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar Menu -->
+      <nav class="mt-2">
+        <ul *ngIf="userData?.role == 'admin'" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-header">Reports</li>
+          <li class="nav-item">
+            <a routerLink="admin/reports/feedback" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>
+                Feedback
+                <span *ngIf="feedbackCount > 0" class="badge badge-info right">{{feedbackCount}}</span>
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="admin/reports/evaluation" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-star-half-alt"></i>
+              <p>
+                Evaluation
+              </p>
+            </a>
+          </li>
+          <li class="nav-header">SOP</li>
+          <li class="nav-item">
+            <a routerLink="sop/emergency-button" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-first-aid"></i>
+              <p>Emergency</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="sop/map" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-map-marked-alt"></i>
+              <p>Map</p>
+            </a>
+          </li>
+          <li class="nav-header">Settings</li>
+          <li class="nav-item">
+            <a routerLink="settings/emergency-protocol" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-broadcast-tower"></i>
+              <p>Emergency Protocol</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="settings/sound-alarm" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-volume-up"></i>
+              <p>
+                Sound Alarm
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-user-cog"></i>
+              <p>
+                Account
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a routerLink="settings/user-accounts" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Users</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a routerLink="settings/create-user" routerLinkActive="active" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <ul *ngIf="userData?.role == 'user'" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a routerLink="/user/dashboard" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/user/send-feedback" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>
+                Send Feedback
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/user/send-my-location" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-map-marker-alt"></i>
+              <p>
+                Send My Location
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/user/my-rating" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-broadcast-tower"></i>
+              <p>Ratings</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="user/offline-feature" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-power-off"></i>
+              <p>Offline features</p>
+            </a>
+          </li>
+        </ul>
+        <ul *ngIf="userData?.role == 'lcmc'" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+          <li class="nav-item">
+            <a routerLink="/lcmc/dashboard" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Dashboard
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/lcmc/feedbacks" routerLinkActive="active" class="nav-link">
+              <i class="nav-icon fas fa-bullhorn"></i>
+              <p>
+                Evaluation
+              </p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+  </aside>

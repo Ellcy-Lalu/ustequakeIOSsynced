@@ -1,0 +1,10 @@
+<ng-template  [ngIf]="isLayout" [ngIfElse]="noLayout">
+    <app-main-header></app-main-header>
+    <app-main-sidebar></app-main-sidebar>
+    <app-content-wrapper></app-content-wrapper>
+    <app-control-sidebar></app-control-sidebar>
+    <app-main-footer></app-main-footer>
+</ng-template>
+<ng-template #noLayout>
+    <router-outlet></router-outlet>
+</ng-template>
